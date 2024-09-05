@@ -4,8 +4,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.shiyanlou.file.mapper.UserfileMapper">
-    <select id="userfileList" resultType="com.shiyanlou.file.vo.UserfileListVO">
+<mapper namespace="com.ski.file.mapper.UserfileMapper">
+    <select id="userfileList" resultType="com.ski.file.vo.UserfileListVO">
         select * from userfile a
         left join file on file.fileId = a.fileId
         <where>
@@ -23,29 +23,29 @@
         limit #{beginCount}, #{pageCount}
     </select>
 
-    <select id="selectFileByExtendName" parameterType="com.shiyanlou.file.model.UserFile" resultType="com.shiyanlou.file.vo.UserfileListVO">
+    <select id="selectFileByExtendName" parameterType="com.ski.file.model.UserFile" resultType="com.ski.file.vo.UserfileListVO">
         select * from userfile
         <include refid="selectByExtendName"></include>
         limit #{beginCount}, #{pageCount}
     </select>
 
-    <select id="selectCountByExtendName" parameterType="com.shiyanlou.file.model.UserFile" resultType="java.lang.Long">
+    <select id="selectCountByExtendName" parameterType="com.ski.file.model.UserFile" resultType="java.lang.Long">
         select count(*) from userfile
         <include refid="selectByExtendName"></include>
     </select>
 
-    <select id="selectFileNotInExtendNames" parameterType="com.shiyanlou.file.model.UserFile" resultType="com.shiyanlou.file.vo.UserfileListVO">
+    <select id="selectFileNotInExtendNames" parameterType="com.ski.file.model.UserFile" resultType="com.ski.file.vo.UserfileListVO">
         select * from userfile
         <include refid="selectByNotExtendName"></include>
         limit #{beginCount}, #{pageCount}
     </select>
 
-    <select id="selectCountNotInExtendNames" parameterType="com.shiyanlou.file.model.UserFile" resultType="java.lang.Long">
+    <select id="selectCountNotInExtendNames" parameterType="com.ski.file.model.UserFile" resultType="java.lang.Long">
         select count(*) from userfile
         <include refid="selectByNotExtendName"></include>
     </select>
 
-        <select id="userfileList" resultType="com.shiyanlou.file.vo.UserfileListVO">
+        <select id="userfileList" resultType="com.ski.file.vo.UserfileListVO">
         select * from userfile a
         left join file on file.fileId = a.fileId
         <where>

@@ -4,13 +4,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.shiyanlou.file.mapper.UserMapper">
-    <insert id="insertUser" parameterType="com.shiyanlou.file.model.User">
+<mapper namespace="com.ski.file.mapper.UserMapper">
+    <insert id="insertUser" parameterType="com.ski.file.model.User">
         insert into user (username, password, telephone)
         value (#{username}, #{password}, #{telephone})
     </insert>
 
-    <select id="selectUser" resultType="com.shiyanlou.file.model.User">
+    <select id="selectUser" resultType="com.ski.file.model.User">
         select * from user
     </select>
 </mapper>

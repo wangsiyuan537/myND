@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@vue/cli": "^4.5.10"
+    "@vue/cli": "^4.5.10",
+    "element-ui": "^2.15.14"
   }
 }
