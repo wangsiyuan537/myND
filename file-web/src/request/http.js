@@ -8,8 +8,8 @@ axios.defaults.timeout = 10000 * 5;
 // 请求基础URL，对应后台服务接口地址
 axios.defaults.baseURL = "/api";
 // 自定义post请求头
-axios.defaults.headers.post["Content-Type"] =
-    "application/x-www-form-urlencoded";
+// axios.defaults.headers.post["Content-Type"] =
+//     "application/x-www-form-urlencoded";
 
 // 请求拦截器
 axios.interceptors.request.use(

@@ -100,6 +100,7 @@ public class UserController {
             ObjectMapper objectMapper = new ObjectMapper();
             jwt = jwtUtil.createJWT(objectMapper.writeValueAsString(loginResult.getData()));
         } catch (Exception e) {
+            log.error("",e);
             return RestResult.fail().message("登录失败！");
         }
         loginVO.setToken(jwt);
