@@ -11,6 +11,9 @@ const routes = [
         path: "/", //  路由路径，即浏览器地址栏中显示的URL
         name: "Home", //  路由名称
         component: Home, //  路由所使用的页面
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: "/login",
@@ -37,3 +40,8 @@ const router = new VueRouter({
 });
 
 export default router;
+
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch((err) => err);
+};
