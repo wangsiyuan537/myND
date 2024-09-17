@@ -149,6 +149,12 @@ export default {
     width: calc(100% - 200px);
     padding: 8px 24px;
     flex: 1;
+    .operation-wrapper {
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 }
 </style>

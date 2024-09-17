@@ -75,7 +75,10 @@ export default {
         message: '您已登录！已跳转到首页',
         type: 'success'
       })
-      this.$router.replace({ name: 'Home' })
+      this.$router.replace({
+        name: "Home",
+        query: { fileType: 0, filePath: "/" },
+      });
     }
   },
   methods: {

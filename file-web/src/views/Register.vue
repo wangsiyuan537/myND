@@ -104,7 +104,10 @@ export default {
                 type: "success",
               });
               this.$refs[formName].resetFields(); // 注册成功之后清空表单
-              this.$router.replace({ path: "/login" }); // 注册成功之后跳转到登录页面
+              this.$router.replace({
+                name: "Home",
+                query: { fileType: 0, filePath: "/" },
+              }); // 注册成功之后跳转到登录页面
             } else {
               this.$message.error(res.message); //  显示接口返回的错误信息
             }

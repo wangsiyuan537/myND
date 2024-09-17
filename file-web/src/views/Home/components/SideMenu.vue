@@ -24,8 +24,10 @@
       ></i>
     </div>
 
-    <el-menu-item index="0" :route="{ name: 'Home', query: { fileType: 0 } }">
-      <!-- 图标均来自 Element UI 官方图标库 https://element.eleme.cn/#/zh-CN/component/icon -->
+    <el-menu-item
+        index="0"
+        :route="{ name: 'Home', query: { fileType: 0, filePath: '/' } }"
+    >
       <i class="el-icon-menu"></i>
       <span slot="title">全部</span>
     </el-menu-item>
@@ -74,9 +76,6 @@ export default {
   },
   created() {
     this.isCollapse = sessionStorage.getItem("isCollapse") === "true"; //  读取保存的状态
-    if (!this.$route.query.fileType) {
-      this.$router.replace({ query: { fileType: 0 } });
-    }
   },
 };
 </script>
