@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router"; //  引入vue-router模块
-import Home from "../views/Home.vue";
+import Home from "../views/Home/index.vue";
 import Login from "@/views/Login.vue"; //  引入Home页面对应的文件
 
 Vue.use(VueRouter); //  将VueRouter挂载在Vue上
