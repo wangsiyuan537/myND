@@ -5,7 +5,10 @@
       :router="true"
       mode="horizontal"
   >
-    <el-menu-item index="Home" :route="{ name: 'Home' }">首页</el-menu-item>
+    <el-menu-item
+        index="Home"
+        :route="{ name: 'Home', query: { fileType: 0, filePath: '/' } }"
+    >首页</el-menu-item>
     <el-menu-item
         class="login"
         index="Login"

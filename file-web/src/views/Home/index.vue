@@ -8,7 +8,9 @@
 <!--    复选框  -->
       <div class="operation-wrapper">
         <!-- 3. 使用组件 -->
-        <OperationMenu :fileType="fileType"></OperationMenu>
+        <OperationMenu :fileType="fileType"
+                       :filePath="filePath"
+                       @getTableData="getFileData"></OperationMenu>
         <SelectColumn></SelectColumn>
       </div>
       <SelectColumn></SelectColumn>
@@ -57,11 +59,16 @@ export default {
     // 左侧菜单选中的文件类型
     fileType() {
       return this.$route.query.fileType ? Number(this.$route.query.fileType) : 0
+    },
+    filePath(){
+      return this.$route.query.filePath
     }
   },
   watch: {
     fileType() {
-      this.getFileData() //  获取文件列表
+      if(this.fileType() === 0){
+        this.getFileData() //  获取文件列表
+      }
     }
   },
   mounted() {
@@ -83,7 +90,7 @@ export default {
     // 根据路径获取文件列表
     getFileDataByPath() {
       getFileListByPath({
-        filePath: '/',
+        filePath: this.filePath,
         currentPage: this.pageData.currentPage,
         pageCount: this.pageData.pageCount
       }).then(
@@ -149,6 +156,12 @@ export default {
     width: calc(100% - 200px);
     padding: 8px 24px;
     flex: 1;
+    .operation-wrapper {
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 }
 </style>
