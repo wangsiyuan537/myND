@@ -1,19 +1,17 @@
 <template>
   <div class="home">
-    <!-- 3. 使用组件 -->
     <!-- 左侧菜单 - 区分文件类型 -->
     <SideMenu class="home-left"></SideMenu>
     <!-- 右侧内容区 -->
     <div class="home-right">
 <!--    复选框  -->
       <div class="operation-wrapper">
-        <!-- 3. 使用组件 -->
         <OperationMenu :fileType="fileType"
                        :filePath="filePath"
                        @getTableData="getFileData"></OperationMenu>
         <SelectColumn></SelectColumn>
       </div>
-      <SelectColumn></SelectColumn>
+
       <!-- 面包屑导航栏 - 显示文件路径 -->
       <BreadCrumb :fileType="fileType"></BreadCrumb>
       <!-- 表格组件 - 文件展示区 -->
@@ -21,6 +19,7 @@
 <!--分页-->
       <FilePagination :pageData="pageData" @changePageData="changePageData"></FilePagination>
     </div>
+    <FileUploader ref="globalUploader"></FileUploader>
   </div>
 </template>
 
@@ -31,6 +30,7 @@ import FileTable from "./components/FileTable.vue"; //  引入文件表格展示
 import FilePagination from './components/FilePagination.vue'
 import SelectColumn from './components/SelectColumn.vue'
 import OperationMenu from './components/OperationMenu.vue'
+import FileUploader from './components/FileUploader.vue'
 
 import { getFileListByPath, getFileListByType } from '@/request/file.js' //  引入获取文件列表接口
 
@@ -43,6 +43,7 @@ export default {
     FilePagination,
     SelectColumn,
     OperationMenu,
+    FileUploader
   },
   data() {
     return {
@@ -65,8 +66,9 @@ export default {
     }
   },
   watch: {
-    fileType() {
-      if(this.fileType() === 0){
+    filePath() {
+      // 当左侧菜单选择全部，文件路径发生变化时，再重新获取文件列表
+      if (this.fileType === 0) {
         this.getFileData() //  获取文件列表
       }
     }

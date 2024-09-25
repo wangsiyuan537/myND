@@ -1,6 +1,16 @@
 <template>
-  <el-table :data="tableData" style="width: 100%" loading="loading">
-    <el-table-column prop="fileName" label="文件名"> </el-table-column>
+  <el-table class="file-table"
+            :data="tableData"
+            height="calc(100vh - 202px)"
+            style="width: 100%"
+            v-loading="loading">
+    <el-table-column prop="fileName" label="文件名">
+      <template slot-scope="scope">
+        <div style="cursor: pointer" @click="handleFileNameClick(scope.row)">
+          {{ scope.row.fileName }}
+        </div>
+      </template>
+    </el-table-column>
     <!-- 通过 v-if 来控制 类型 列是否显示 -->
     <el-table-column
         prop="extendName"
@@ -8,14 +18,20 @@
         width="100"
         v-if="selectedColumnList.includes('extendName')"
     >
+      <template slot-scope="scope">
+        <span>{{ scope.row.extendName ? scope.row.extendName : '文件夹' }}</span>
+      </template>
     </el-table-column>
     <!-- 通过 v-if 来控制 大小 列是否显示 -->
     <el-table-column
         prop="fileSize"
         label="大小"
-        width="60"
+        width="100"
         v-if="selectedColumnList.includes('fileSize')"
     >
+      <template slot-scope="scope">
+        <span>{{ calculateFileSize(scope.row.fileSize) }}</span>
+      </template>
     </el-table-column>
     <!-- 通过 v-if 来控制 修改日期 列是否显示 -->
     <el-table-column
@@ -111,6 +127,23 @@ export default {
     }
   },
   methods: {
+    calculateFileSize(size) {
+      const B = 1024
+      const KB = Math.pow(1024, 2)
+      const MB = Math.pow(1024, 3)
+      const GB = Math.pow(1024, 4)
+      if (!size) {
+        return '_'
+      } else if (size < KB) {
+        return (size / B).toFixed(0) + 'KB'
+      } else if (size < MB) {
+        return (size / KB).toFixed(1) + 'MB'
+      } else if (size < GB) {
+        return (size / MB).toFixed(2) + 'GB'
+      } else {
+        return (size / GB).toFixed(3) + 'TB'
+      }
+    },
     // 删除按钮 - 点击事件
     handleClickDelete(row) {
       console.log("删除", row.fileName);
@@ -122,6 +155,17 @@ export default {
     // 重命名按钮 - 点击事件
     handleClickRename(row) {
       console.log("重命名", row.fileName);
+    },
+    handleFileNameClick(row) {
+      //  若是目录则进入目录
+      if (row.isDir) {
+        this.$router.push({
+          query: {
+            filePath: `${row.filePath}${row.fileName}/`,
+            fileType: 0
+          }
+        })
+      }
     },
   },
   watch: {
@@ -143,6 +187,12 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.file-table {
+  // 调整滚动条样式
+  >>> .el-table__body-wrapper {
+    setScrollbar(8px, #EBEEF5, #909399);
+  }
+}
 // 表格操作列-表头图标样式调整
 .el-icon-circle-plus, .el-icon-remove {
   margin-left: 8px;

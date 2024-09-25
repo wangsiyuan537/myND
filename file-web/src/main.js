@@ -6,8 +6,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/style/base.styl'
 import '@/router/before.js'
+import Vue from 'vue'
+import uploader from 'vue-simple-uploader'
 
 Vue.use(ElementUI)
+Vue.use(uploader)
 
 Vue.config.productionTip = false
 
