@@ -8,7 +8,11 @@
       <div class="operation-wrapper">
         <OperationMenu :fileType="fileType"
                        :filePath="filePath"
-                       @getTableData="getFileData"></OperationMenu>
+                       @getTableData="getFileData"
+                       @handleUploadFile="handleUploadFile">
+
+        </OperationMenu>
+
         <SelectColumn></SelectColumn>
       </div>
 
@@ -19,7 +23,11 @@
 <!--分页-->
       <FilePagination :pageData="pageData" @changePageData="changePageData"></FilePagination>
     </div>
-    <FileUploader ref="globalUploader"></FileUploader>
+    <!-- 文件上传组件 -->
+    <FileUploader
+        ref="globalUploader"
+        @getTableData="getFileData"
+    ></FileUploader>
   </div>
 </template>
 
@@ -138,6 +146,11 @@ export default {
       this.pageData.currentPage = pageData.currentPage // 页码赋值
       this.pageData.pageCount = pageData.pageCount //  每页条目数赋值
       this.getFileData() // 获取文件列表
+    },
+    // 上传文件 按钮点击事件
+    handleUploadFile() {
+      //  触发子组件中的打开文件上传窗口事件
+      this.$refs.globalUploader.triggerSelectFileClick()
     }
   }
 

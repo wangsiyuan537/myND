@@ -11,6 +11,14 @@
           @click="addFolderDialog.visible = true"
       >新建文件夹</el-button
       >
+      <el-button
+          size="mini"
+          type="primary"
+          icon="el-icon-upload2"
+          @click="handleUploadFileClick()"
+          :disabled="fileType !== 0"
+      >上传文件</el-button
+      >
     </el-button-group>
 
     <!-- 对话框 - 新建文件夹 -->
@@ -116,6 +124,9 @@ export default {
         }
       });
     },
+    handleUploadFileClick() {
+      this.$emit('handleUploadFile', true)
+    }
   },
 };
 </script>
