@@ -9,10 +9,10 @@
     <el-breadcrumb class="bread-crumb" v-else separator="/">
       <!-- 当点击面包屑导航栏中的某一级时，改变路由 -->
       <el-breadcrumb-item
-          v-for="(item, index) in breadCrumbList"
-          :key="index"
-          :to="{ query: { fileType: 0, filePath: item.path } }"
-      >{{ item.name }}</el-breadcrumb-item
+        v-for="(item, index) in breadCrumbList"
+        :key="index"
+        :to="{ query: { fileType: 0, filePath: item.path } }"
+        >{{ item.name }}</el-breadcrumb-item
       >
     </el-breadcrumb>
   </div>
@@ -20,27 +20,28 @@
 
 <script>
 export default {
-  name: "BreadCrumb",
+  name: 'BreadCrumb',
   props: {
     fileType: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       fileTypeMap: {
-        1: "全部图片",
-        2: "全部文档",
-        3: "全部视频",
-        4: "全部音乐",
-        5: "其他",
-      },
-    };
+        1: '全部图片',
+        2: '全部文档',
+        3: '全部视频',
+        4: '全部音乐',
+        5: '其他'
+      }
+    }
   },
   computed: {
+    // 依据路径查看时 当前路径拆分的面包屑数据
     breadCrumbList() {
-      let path = this.$route.query.filePath//  路径示例 /实验楼/
+      let path = this.$route.query.filePath //  路径示例 /实验楼/
       let pathList = path ? path.split('/').slice(1, -1) : [] // 路径列表，取第二个 ~ 倒数第二个，因为第一个和最后一个数组项都是空字符串
       let res = [{ name: '全部文件', path: '/' }]
       pathList.forEach((element, index) => {
@@ -52,7 +53,7 @@ export default {
       return res
     }
   }
-};
+}
 </script>
 
 <style lang="stylus" scoped>

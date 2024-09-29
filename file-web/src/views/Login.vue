@@ -3,33 +3,33 @@
     <div class="formWrapper">
       <h1 class="loginTitle">登录</h1>
       <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="100px"
-          class="demo-ruleForm"
-          hide-required-asterisk
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="100px"
+        class="demo-ruleForm"
+        hide-required-asterisk
       >
         <el-form-item prop="telephone">
           <el-input
-              prefix-icon="el-icon-mobile-phone"
-              v-model="ruleForm.telephone"
-              placeholder="手机号"
+            prefix-icon="el-icon-mobile-phone"
+            v-model="ruleForm.telephone"
+            placeholder="手机号"
           ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
-              prefix-icon="el-icon-lock"
-              v-model="ruleForm.password"
-              placeholder="密码"
-              show-password
+            prefix-icon="el-icon-lock"
+            v-model="ruleForm.password"
+            placeholder="密码"
+            show-password
           ></el-input>
         </el-form-item>
         <el-form-item class="loginButtonWrapper">
           <el-button
-              class="loginButton"
-              type="primary"
-              @click="submitForm('ruleForm')"
+            class="loginButton"
+            type="primary"
+            @click="submitForm('ruleForm')"
           >
             登录
           </el-button>
@@ -40,32 +40,27 @@
 </template>
 
 <script>
-import { login } from "@/request/user.js"; //    引入登录接口
-import Cookies from "js-cookie";
+import { login } from '@/request/user.js' //	引入登录接口
+import Cookies from 'js-cookie'
 
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       ruleForm: {
-        telephone: "",
-        password: "",
+        telephone: '',
+        password: ''
       },
       rules: {
         telephone: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
+          { required: true, message: '请输入手机号', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          {
-            min: 5,
-            max: 20,
-            message: "长度在 5 到 20 个字符",
-            trigger: "blur",
-          },
-        ],
-      },
-    };
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 5, max: 20, message: '长度在 5 到 20 个字符', trigger: 'blur' }
+        ]
+      }
+    }
   },
   created() {
     if (this.$store.getters.isLogin) {
@@ -76,9 +71,9 @@ export default {
         type: 'success'
       })
       this.$router.replace({
-        name: "Home",
-        query: { fileType: 0, filePath: "/" },
-      });
+        name: 'Home',
+        query: { fileType: 0, filePath: '/' }
+      })
     }
   },
   methods: {
@@ -89,24 +84,27 @@ export default {
           // 各项校验通过-调用登录接口
           login(this.ruleForm, true).then((res) => {
             if (res.success) {
-              Cookies.set("token", res.data.token); //    在cookies中添加token
-              this.$message.success("登录成功！");
-              this.$refs[formName].resetFields(); //    清空表单项
-              this.$router.replace({ name: "Home" }); // 跳转到首页
+              Cookies.set('token', res.data.token) //	在cookies中添加token
+              this.$message.success('登录成功！')
+              this.$refs[formName].resetFields() //	清空表单项
+              this.$router.replace({
+                name: 'Home',
+                query: { fileType: 0, filePath: '/' }
+              }) // 跳转到首页
             } else {
-              this.$message.error("手机号或密码错误！");
+              this.$message.error('手机号或密码错误！')
+              this.$refs.dragVerifyRef.reset()
             }
-          });
+          })
         } else {
-          this.$message.error("请完善信息！");
-          return false;
+          this.$message.error('请完善信息！')
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
-<!---->
 <style lang="stylus" scoped>
 .loginWrapper {
   height: 550px !important;
