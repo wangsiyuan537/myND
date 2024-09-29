@@ -1,33 +1,34 @@
 <template>
+  <!-- collapse 属性：控制菜单收缩展开 -->
   <el-menu
-      class="side-menu"
-      :default-active="activeIndex"
-      :router="true"
-      :collapse="isCollapse"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
+    class="side-menu"
+    :default-active="activeIndex"
+    :router="true"
+    :collapse="isCollapse"
+    background-color="#545c64"
+    text-color="#fff"
+    active-text-color="#ffd04b"
   >
     <div class="fold-wrapper">
       <!-- click事件 当点击时切换菜单的收缩状态 -->
       <i
-          class="el-icon-s-unfold"
-          v-if="isCollapse"
-          title="展开"
-          @click="isCollapse = false"
+        class="el-icon-s-unfold"
+        v-if="isCollapse"
+        title="展开"
+        @click="isCollapse = false"
       ></i>
       <i
-          class="el-icon-s-fold"
-          v-else
-          title="收缩"
-          @click="isCollapse = true"
+        class="el-icon-s-fold"
+        v-else
+        title="收缩"
+        @click="isCollapse = true"
       ></i>
     </div>
-
     <el-menu-item
-        index="0"
-        :route="{ name: 'Home', query: { fileType: 0, filePath: '/' } }"
+      index="0"
+      :route="{ name: 'Home', query: { fileType: 0, filePath: '/' } }"
     >
+      <!-- 图标均来自 Element UI 官方图标库 https://element.eleme.cn/#/zh-CN/component/icon -->
       <i class="el-icon-menu"></i>
       <span slot="title">全部</span>
     </el-menu-item>
@@ -51,34 +52,101 @@
       <i class="el-icon-takeaway-box"></i>
       <span slot="title">其他</span>
     </el-menu-item>
+    <div class="storage-wrapper" v-show="!isCollapse">
+      <el-progress
+        :percentage="storagePercentage"
+        :color="storageColor"
+        :show-text="false"
+      ></el-progress>
+      <div class="text">
+        <span>存储</span>
+        <span
+          >{{ storageValue | storageTrans }} /
+          {{ storageMaxValue | storageTrans(true) }}</span
+        >
+      </div>
+    </div>
   </el-menu>
 </template>
 
 <script>
 export default {
-  name: "SideMenu",
+  name: 'SideMenu',
+  props: {
+    storageValue: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
-      isCollapse: false,
-    };
+      isCollapse: false, //  控制菜单收缩展开
+      storageMaxValue: Math.pow(1024, 3) * 1, //  最大存储容量，1GB
+      //  自定义进度条颜色，不同占比，进度条颜色不同
+      storageColor: [
+        { color: '#67C23A', percentage: 50 },
+        { color: '#E6A23C', percentage: 80 },
+        { color: '#F56C6C', percentage: 100 }
+      ]
+    }
   },
   computed: {
     // 当前激活菜单的 index
     activeIndex() {
-      return String(this.$route.query.fileType); //  获取当前路由参数中包含的文件类型
+      return String(this.$route.query.fileType) //  获取当前路由参数中包含的文件类型
     },
+    // 存储百分比
+    storagePercentage() {
+      return (this.storageValue / this.storageMaxValue) * 100
+    }
   },
   watch: {
     // 监听收缩状态变化，存储在sessionStorage中，保证页面刷新时仍然保存设置的状态
     isCollapse(newValue) {
-      sessionStorage.setItem("isCollapse", newValue);
-    },
+      sessionStorage.setItem('isCollapse', newValue)
+    }
+  },
+  filters: {
+    // 计算空间占比
+    storageTrans(size, status) {
+      const B = 1024
+      const KB = Math.pow(1024, 2)
+      const MB = Math.pow(1024, 3)
+      const GB = Math.pow(1024, 4)
+      if (status) {
+        //	截取整数部分
+        if (!size) {
+          return 0 + 'KB'
+        } else if (size < KB) {
+          return (size / B).toFixed(0) + 'KB'
+        } else if (size < MB) {
+          return (size / KB).toFixed(0) + 'MB'
+        } else if (size < GB) {
+          return (size / MB).toFixed(0) + 'GB'
+        } else {
+          return (size / GB).toFixed(0) + 'TB'
+        }
+      } else {
+        if (!size) {
+          return 0 + 'KB'
+        } else if (size < KB) {
+          return (size / B).toFixed(0) + 'KB'
+        } else if (size < MB) {
+          return (size / KB).toFixed(2) + 'MB'
+        } else if (size < GB) {
+          return (size / MB).toFixed(3) + 'GB'
+        } else {
+          return (size / GB).toFixed(4) + 'TB'
+        }
+      }
+    }
   },
   created() {
-    this.isCollapse = sessionStorage.getItem("isCollapse") === "true"; //  读取保存的状态
-  },
-};
+    this.isCollapse = sessionStorage.getItem('isCollapse') === 'true' //  读取保存的状态
+  }
+}
 </script>
+
 <style lang="stylus" scoped>
 @import '~@/assets/style/mixins.styl';
 
@@ -104,6 +172,27 @@ export default {
       &:hover {
         opacity: 0.5;
       }
+    }
+  }
+
+  // 存储空间展示区
+  .storage-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 16px;
+    z-index: 2;
+    color: #fff;
+    opacity: 0.8;
+
+    .text {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
     }
   }
 }
