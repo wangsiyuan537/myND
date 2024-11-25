@@ -1,10 +1,7 @@
 {
   "editor.detectIndentation": false,
-
   "editor.tabSize": 2,
-
   "editor.formatOnSave": true,
-
   "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
   "vetur.format.defaultFormatterOptions": {
     "prettier": {
@@ -12,5 +9,6 @@
       "singleQuote": true,
       "trailingComma": "none"
     }
-  }
+  },
+  "java.compile.nullAnalysis.mode": "disabled"
 }
